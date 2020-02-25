@@ -16,7 +16,9 @@
 		"paths": {
 			"layouts": ["./layouts"],
 			"scenes": ["./scenes"],
-			"core": ["./core"]
+			"core": ["./core"],
+			"pods": ["./pods"],
+			"common": ["./common"]
 		}
 	},
 	"compileOnSave": false,

@@ -11,7 +11,9 @@ module.exports = {
 		alias: {
 			layouts: path.resolve(basePath, "./src/layouts/"),
 			scenes: path.resolve(basePath, "./src/scenes/"),
-			core: path.resolve(basePath, "./src/core/")
+			core: path.resolve(basePath, "./src/core/"),
+			pods: path.resolve(basePath, "./src/pods"),
+			common: path.resolve(basePath, "./src/common")
 		},
 		extensions: [".js", ".ts", ".tsx"]
 	},
