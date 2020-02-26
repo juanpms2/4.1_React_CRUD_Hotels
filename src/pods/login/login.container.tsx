@@ -3,8 +3,7 @@ import { useHistory } from "react-router-dom";
 import { LoginComponent } from "./login.component";
 import { linkRoutes, SessionContext } from "core";
 import { LoginEntityVm, createEmptyLogin } from "./login.vm";
-import { validateCredentials } from "./login.api";
-import { SnackbarContext } from "common";
+import { SnackbarContext, validateCredentials } from "common";
 
 interface Props {}
 

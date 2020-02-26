@@ -22,9 +22,9 @@ ReactDOM.render(
 						component={HotelCollectionScene}
 					/>
 					<Route path={switchRoutes.hotelEdit} component={HotelEditionScene} />
+					<FooterAppBar />
 				</Switch>
 			</HashRouter>
-			<FooterAppBar />
 		</HotelCardProvider>
 	</SessionProvider>,
 	document.getElementById("root")

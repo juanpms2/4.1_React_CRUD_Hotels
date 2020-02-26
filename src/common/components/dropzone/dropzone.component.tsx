@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		display: "flex",
 		flexWrap: "wrap",
@@ -10,36 +10,90 @@ const useStyles = makeStyles((theme) => ({
 		border: "2px dashed #0087F7",
 		borderRadius: "5px",
 		background: "#F4F4F4",
-		minHeight: "150px",
-		padding: "54px",
+		minHeight: "75px",
+		padding: "10px 40px",
 		boxSizing: "border-box",
 		"& > *": {
 			cursor: "pointer",
 			fontFamily: "arial",
-			fontSize: "24px",
+			fontSize: "18px",
 			fontWeight: "400",
 			textAlign: "center",
 			margin: "2em 0",
 			color: "#646C7F"
 		}
+	},
+	thumbsContainer: {
+		display: "flex",
+		flexDirection: "row",
+		flexWrap: "wrap",
+		marginTop: 16
+	},
+	thumb: {
+		display: "inline-flex",
+		borderRadius: 2,
+		border: "1px solid #eaeaea",
+		marginBottom: 8,
+		marginRight: 8,
+		width: 100,
+		height: 100,
+		padding: 4,
+		boxSizing: "border-box"
+	},
+	thumbInner: {
+		display: "flex",
+		minWidth: 0,
+		overflow: "hidden"
+	},
+	img: {
+		display: "block",
+		width: "auto",
+		height: "100%"
 	}
 }));
 
-export const MyDropzone = () => {
-	const onDrop = useCallback((acceptedFiles) => {
-		// Do something with the files
-	}, []);
-	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-	const classes = useStyles();
+export const MyDropzone = (props) => {
+	const [files, setFiles] = useState([]);
+	const classes = useStyles(props);
+	const { getRootProps, getInputProps } = useDropzone({
+		accept: "image/*",
+		onDrop: (acceptedFiles) => {
+			setFiles(
+				acceptedFiles.map((file) =>
+					Object.assign(file, {
+						preview: URL.createObjectURL(file)
+					})
+				)
+			);
+		}
+	});
+
+	const thumbs = files.map((file) => (
+		<div className={classes.thumb} key={file.name}>
+			<div className={classes.thumbInner}>
+				<img src={file.preview} className={classes.img} />
+			</div>
+		</div>
+	));
+
+	useEffect(
+		() => () => {
+			// Make sure to revoke the data uris to avoid memory leaks
+			files.forEach((file) => URL.revokeObjectURL(file.preview));
+		},
+		[files]
+	);
 
 	return (
-		<div className={classes.root} {...getRootProps()}>
-			<input {...getInputProps()} />
-			{isDragActive ? (
-				<p>Drop the files here ...</p>
-			) : (
+		<section className="container">
+			<div
+				{...getRootProps({ className: "dropzone" })}
+				className={classes.root}
+			>
+				<input {...getInputProps()} />
 				<p>Drag 'n' drop some files here, or click to select files</p>
-			)}
-		</div>
+			</div>
+			<aside className={classes.thumbsContainer}>{thumbs}</aside>
+		</section>
 	);
 };

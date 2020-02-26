@@ -20,8 +20,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const TopMenu = (props) => {
-	const { login } = React.useContext(SessionContext);
+	const { login, updateLogin } = React.useContext(SessionContext);
 	const classes = useStyles(props);
+	updateLogin(login);
 
 	return (
 		<div className={classes.root}>

@@ -7,6 +7,14 @@ import { HotelCardContext } from "common";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
+		display: "flex",
+		flexWrap: "wrap",
+		justifyContent: "center",
+		width: "100%"
+	},
+	title: {
+		margin: "15px 0",
+
 		"& > * + *": {
 			marginLeft: theme.spacing(2)
 		}
@@ -19,11 +27,12 @@ export const HotelEditionScene = () => {
 
 	return (
 		<AppLayout>
-			<Typography className={classes.root}>
-				<h2>Hotel Edition</h2>
+			<Typography className={classes.title} variant="h5">
+				Hotel Edition
 			</Typography>
-
-			<HotelEditionContainer key={hotelCardContext.id} />
+			<div className={classes.root}>
+				<HotelEditionContainer key={hotelCardContext.id} />
+			</div>
 		</AppLayout>
 	);
 };

@@ -44,7 +44,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const HotelCard: React.FunctionComponent<Props> = (props) => {
 	const { hotelEdition } = props;
 	const classes = useStyles(props);
-	const [value, setValue] = React.useState<number | null>(2);
+	const [value, setValue] = React.useState<number | null>(hotelEdition.rating);
+
+	React.useEffect(() => {
+		setValue(hotelEdition.rating);
+	}, [hotelEdition.rating]);
 
 	return (
 		<Form
@@ -54,7 +58,7 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 			render={({ handleSubmit, submitting, pristine, values }) => (
 				<form onSubmit={handleSubmit} noValidate>
 					<div className={classes.root}>
-						<Grid container spacing={3}>
+						<Grid container spacing={10}>
 							<Grid item xs={2}>
 								<Paper className={classes.paper}>
 									<Typography component="legend">
@@ -109,12 +113,12 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 							<Grid item xs={6}>
 								<Paper className={classes.paper}>
 									<Box component="fieldset" mb={3} borderColor="transparent">
-										<Typography component="legend">Controlled</Typography>
+										<Typography component="legend">Rating</Typography>
 										<Rating
-											name="simple-controlled"
+											name="rating"
 											value={value}
 											onChange={(event, newValue) => {
-												setValue(hotelEdition.rating);
+												setValue(newValue);
 											}}
 										/>
 									</Box>
@@ -128,7 +132,7 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 						</Grid>
 					</div>
 					<div className={classes.root}>
-						<Grid container spacing={3}>
+						<Grid container spacing={10}>
 							<Grid item xs={2}>
 								<Paper className={classes.paper}>
 									<Typography component="legend">

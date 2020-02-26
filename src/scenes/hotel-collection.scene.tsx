@@ -6,6 +6,8 @@ import { HotelCollectionContainer } from "pods";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
+		margin: "15px 0",
+
 		"& > * + *": {
 			marginLeft: theme.spacing(2)
 		}
@@ -17,8 +19,8 @@ export const HotelCollectionScene = () => {
 
 	return (
 		<AppLayout>
-			<Typography className={classes.root}>
-				<h2>Hotel Collection</h2>
+			<Typography className={classes.root} variant="h5">
+				Hotel Collection
 			</Typography>
 			<HotelCollectionContainer />
 		</AppLayout>

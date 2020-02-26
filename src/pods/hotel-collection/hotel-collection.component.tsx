@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 	listLayout: {
 		display: "flex",
 		flexWrap: "wrap",
-		justifyContent: "space-between"
+		justifyContent: "space-around"
 	}
 });
 
