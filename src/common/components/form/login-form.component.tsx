@@ -12,6 +12,12 @@ const useStyles = makeStyles({
 		flexDirection: "column",
 		justifyContent: "center",
 		minWidth: "400px"
+	},
+
+	myForm: {
+		"& > *": {
+			margin: "8px auto"
+		}
 	}
 });
 
@@ -31,7 +37,7 @@ export const LoginForm = (props) => {
 				initialValues={initialLogin}
 				validate={formValidation.validateForm}
 				render={({ handleSubmit, submitting, pristine, values }) => (
-					<form onSubmit={handleSubmit} noValidate>
+					<form onSubmit={handleSubmit} className={classes.myForm} noValidate>
 						<Field
 							fullWidth
 							name="login"
@@ -49,10 +55,10 @@ export const LoginForm = (props) => {
 						<Button type="submit" variant="contained" color="primary">
 							Login
 						</Button>
-						<pre>{JSON.stringify(values, undefined, 2)}</pre>
+						{/* <pre>{JSON.stringify(values, undefined, 2)}</pre>
 						<Field name="login">
 							{(props) => <pre>{JSON.stringify(props, undefined, 2)}</pre>}
-						</Field>
+						</Field> */}
 					</form>
 				)}
 			/>

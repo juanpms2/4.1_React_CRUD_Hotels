@@ -1,9 +1,6 @@
 import * as React from "react";
-import { Link as RouterLink } from "react-router-dom";
-import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { linkRoutes } from "core";
 import { AppLayout } from "layouts";
 import { HotelEditionContainer } from "pods";
 import { HotelCardContext } from "common";
@@ -22,18 +19,8 @@ export const HotelEditionScene = () => {
 
 	return (
 		<AppLayout>
-			<h2>Hello from Hotel Edition Scene</h2>
 			<Typography className={classes.root}>
-				<Button color="primary" component={RouterLink} to={linkRoutes.login}>
-					Login
-				</Button>
-				<Button
-					color="primary"
-					component={RouterLink}
-					to={linkRoutes.hotelCollection}
-				>
-					Hotel Collection
-				</Button>
+				<h2>Hotel Edition</h2>
 			</Typography>
 
 			<HotelEditionContainer key={hotelCardContext.id} />
