@@ -4,6 +4,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
+import { Field } from "react-final-form";
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -29,26 +30,32 @@ export const NativeSelects = () => {
 	};
 
 	return (
-		<div>
-			<FormControl className={classes.formControl}>
-				<InputLabel shrink htmlFor="city-native-label-placeholder">
-					City
-				</InputLabel>
-				<NativeSelect
-					value={state.city}
-					onChange={handleChange("city")}
-					inputProps={{
-						name: "City",
-						id: "city-native-label-placeholder"
-					}}
-				>
-					<option value="">Seattle</option>
-					<option value={10}>New york</option>
-					<option value={20}>California</option>
-					<option value={30}>Chicago</option>
-				</NativeSelect>
-				<FormHelperText>Select city</FormHelperText>
-			</FormControl>
-		</div>
+		<Field name="city">
+			{(props) => (
+				<div>
+					<FormControl className={classes.formControl}>
+						{/* <InputLabel shrink htmlFor="city-native-label-placeholder">
+							City
+						</InputLabel> */}
+						<NativeSelect
+							name={props.input.name}
+							value={props.input.value}
+							onChange={props.input.onChange}
+							// onChange={handleChange("city")}
+							inputProps={{
+								name: "city",
+								id: "city-native-label-placeholder"
+							}}
+						>
+							<option value="New york">New york</option>
+							<option value="California">California</option>
+							<option value="Seattle">Seattle</option>
+							<option value="Chicago">Chicago</option>
+						</NativeSelect>
+						<FormHelperText>Select city</FormHelperText>
+					</FormControl>
+				</div>
+			)}
+		</Field>
 	);
 };

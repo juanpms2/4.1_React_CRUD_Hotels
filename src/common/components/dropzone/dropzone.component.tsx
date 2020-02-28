@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import * as React from "react";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Field } from "react-final-form";
+
+interface Props {
+	getRootProps: () => void;
+	getInputProps: () => void;
+	files: () => void;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -52,21 +58,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 	}
 }));
 
-export const MyDropzone = (props) => {
-	const [files, setFiles] = useState([]);
+export const MyDropzoneComponent = (props) => {
+	const { getInputProps, getRootProps, files } = props;
 	const classes = useStyles(props);
-	const { getRootProps, getInputProps } = useDropzone({
-		accept: "image/*",
-		onDrop: (acceptedFiles) => {
-			setFiles(
-				acceptedFiles.map((file) =>
-					Object.assign(file, {
-						preview: URL.createObjectURL(file)
-					})
-				)
-			);
-		}
-	});
 
 	const thumbs = files.map((file) => (
 		<div className={classes.thumb} key={file.name}>
@@ -75,25 +69,30 @@ export const MyDropzone = (props) => {
 			</div>
 		</div>
 	));
-
-	useEffect(
-		() => () => {
-			// Make sure to revoke the data uris to avoid memory leaks
-			files.forEach((file) => URL.revokeObjectURL(file.preview));
-		},
-		[files]
-	);
+	const fileName = files.map((file) => (
+		<p key={file.name}>
+			{file.name} - {file.size} bytes
+		</p>
+	));
 
 	return (
-		<section className="container">
-			<div
-				{...getRootProps({ className: "dropzone" })}
-				className={classes.root}
-			>
-				<input {...getInputProps()} />
-				<p>Drag 'n' drop some files here, or click to select files</p>
-			</div>
-			<aside className={classes.thumbsContainer}>{thumbs}</aside>
-		</section>
+		<Field name="picture">
+			{(props) => (
+				<section className="container">
+					<div
+						{...getRootProps({ className: "dropzone" })}
+						className={classes.root}
+					>
+						{/* Pasamos la propiedades input de Field a la función getInputProps de dropzone  */}
+						<input {...getInputProps(props.input)} />
+						<p>Drag 'n' drop some files here, or click to select files</p>
+					</div>
+					<aside className={classes.thumbsContainer}>
+						{thumbs}
+						{fileName}
+					</aside>
+				</section>
+			)}
+		</Field>
 	);
 };

@@ -1,10 +1,10 @@
 import * as React from "react";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Form, Field } from "react-final-form";
 import { TextField } from "./text-field";
 import { formValidation } from "./form-validation";
-import { createDefaultFomEntity, FormEntityVm } from "./form.vm";
-import { MyDropzone, NativeSelects } from "common";
+import { HotelEntityVm, createDefaultHotelEntity } from "../hotel-edition.vm";
+import { MyDropzoneContainer, NativeSelects } from "common";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -16,7 +16,7 @@ import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 
 interface Props {
-	hotelEdition;
+	hotelEdition: HotelEntityVm;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,16 +44,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const HotelCard: React.FunctionComponent<Props> = (props) => {
 	const { hotelEdition } = props;
 	const classes = useStyles(props);
-	const [value, setValue] = React.useState<number | null>(hotelEdition.rating);
-
-	React.useEffect(() => {
-		setValue(hotelEdition.rating);
-	}, [hotelEdition.rating]);
 
 	return (
 		<Form
 			onSubmit={(values) => console.log(values)}
-			initialValues={createDefaultFomEntity()}
+			initialValues={{
+				rating: hotelEdition.rating,
+				city: hotelEdition.city,
+				description: hotelEdition.description
+			}}
 			validate={formValidation.validateForm}
 			render={({ handleSubmit, submitting, pristine, values }) => (
 				<form onSubmit={handleSubmit} noValidate>
@@ -102,7 +101,9 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 									<Typography component="legend">
 										<label>Select Image</label>
 									</Typography>
-									<MyDropzone />
+									<Field name="picture" component={MyDropzoneContainer} />
+
+									{/* <MyDropzoneContainer /> */}
 								</Paper>
 							</Grid>
 						</Grid>
@@ -112,20 +113,33 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 						<Grid container spacing={3}>
 							<Grid item xs={6}>
 								<Paper className={classes.paper}>
-									<Box component="fieldset" mb={3} borderColor="transparent">
-										<Typography component="legend">Rating</Typography>
-										<Rating
-											name="rating"
-											value={value}
-											onChange={(event, newValue) => {
-												setValue(newValue);
-											}}
-										/>
-									</Box>
+									<Typography component="legend">
+										<label>Rating</label>
+									</Typography>
+									<Field name="rating" type="rating">
+										{({ input: { name, onChange, value } }) => (
+											<div>
+												<Box
+													component="fieldset"
+													mb={3}
+													borderColor="transparent"
+												>
+													<Rating
+														name={name}
+														value={parseInt(value)}
+														onChange={onChange}
+													/>
+												</Box>
+											</div>
+										)}
+									</Field>
 								</Paper>
 							</Grid>
 							<Grid item xs={6}>
 								<Paper className={classes.paper}>
+									<Typography component="legend">
+										<label>City</label>
+									</Typography>
 									<NativeSelects />
 								</Paper>
 							</Grid>
@@ -142,11 +156,18 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 							</Grid>
 							<Grid item xs={10}>
 								<Paper className={classes.paper}>
-									<TextareaAutosize
-										aria-label="minimum height"
-										rowsMin={8}
-										placeholder="Add description"
-									/>
+									<Field name="description">
+										{(props) => (
+											<TextareaAutosize
+												aria-label="minimum height"
+												rowsMin={8}
+												placeholder="Add description"
+												name={props.input.name}
+												value={props.input.value}
+												onChange={props.input.onChange}
+											/>
+										)}
+									</Field>
 								</Paper>
 							</Grid>
 						</Grid>
@@ -161,6 +182,12 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 								</Paper>
 							</Grid>
 						</Grid>
+					</div>
+					<div style={{ maxWidth: "200px" }}>
+						<pre>{JSON.stringify(values, undefined, 2)}</pre>
+						<Field name="data">
+							{(props) => <pre>{JSON.stringify(props, undefined, 2)}</pre>}
+						</Field>
 					</div>
 				</form>
 			)}
