@@ -12,8 +12,7 @@ import {
 	CardContent,
 	CardMedia,
 	Typography,
-	CardActions,
-	Button
+	CardActions
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import { linkRoutes } from "core";
@@ -62,7 +61,7 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 			<CardContent>
 				<div className={classes.cardcontentContainer}>
 					<CardMedia
-						image={hotel.picture}
+						image={hotel.urlBase64 ? hotel.urlBase64 : hotel.picture}
 						title={hotel.name}
 						style={{ height: 0, paddingTop: "56.25%" }}
 					/>

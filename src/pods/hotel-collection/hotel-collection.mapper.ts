@@ -10,5 +10,6 @@ export const mapFromApiToVm = (
 	name: hotel.name,
 	description: hotel.shortDescription,
 	rating: hotel.hotelRating,
-	address: hotel.address1
+	address: hotel.address1,
+	urlBase64: hotel.urlBase64
 });

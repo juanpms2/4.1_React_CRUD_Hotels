@@ -7,8 +7,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import { NavMenu } from "common";
 import { SessionContext } from "core";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 
 interface Props {}
 
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 export const TopMenu = (props) => {
 	const { login, updateLogin } = React.useContext(SessionContext);
 	const classes = useStyles(props);
-	updateLogin(login);
+	updateLogin(sessionStorage.getItem("user"));
 
 	return (
 		<div className={classes.root}>

@@ -6,3 +6,6 @@ export const validateCredentials = (
 	new Promise<boolean>((resolve) =>
 		setTimeout(() => resolve(user === "admin" && password === "test"), 500)
 	);
+validateCredentials
+	? sessionStorage.setItem("user", "admin")
+	: sessionStorage.setItem("user", "");

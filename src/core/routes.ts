@@ -5,13 +5,15 @@ interface SwitchRoutes {
 	login: string;
 	hotelCollection: string;
 	hotelEdit: string;
+	newHotel: string;
 }
 
 export const switchRoutes: SwitchRoutes = {
 	root: "/",
 	login: "/login",
 	hotelCollection: "/hotel-collection",
-	hotelEdit: "/hotel-edit/:id"
+	hotelEdit: "/hotel-edit/:id",
+	newHotel: "/hotel-edit/new"
 };
 
 type NavigationFunction = (id: string) => string;

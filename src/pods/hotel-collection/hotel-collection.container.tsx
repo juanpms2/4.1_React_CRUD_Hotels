@@ -3,7 +3,7 @@ import { HotelCollectionComponent } from "./hotel-collection.component";
 import { HotelEntityVm } from "./hotel-collection.vm";
 import { getHotelCollection } from "common";
 import { mapFromApiToVm } from "./hotel-collection.mapper";
-import { mapToCollection } from "common/mappers";
+import { mapToCollection } from "common";
 import { trackPromise } from "react-promise-tracker";
 
 const useHotelCollection = () => {

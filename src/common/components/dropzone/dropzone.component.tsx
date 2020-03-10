@@ -1,11 +1,16 @@
 import * as React from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Field } from "react-final-form";
+import Alert from "@material-ui/lab/Alert";
+import Grid from "@material-ui/core/Grid";
+import { FormControl } from "@material-ui/core";
+import { TextField } from "./text-field";
 
 interface Props {
-	getRootProps: () => void;
-	getInputProps: () => void;
-	files: () => void;
+	getRootProps;
+	getInputProps;
+	acceptedFilesd;
+	rejectedFiles;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -59,40 +64,93 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export const MyDropzoneComponent = (props) => {
-	const { getInputProps, getRootProps, files } = props;
 	const classes = useStyles(props);
+	const [urlBase64, setUrlBase64] = React.useState();
+	const { acceptedFiles, rejectedFiles, getRootProps, getInputProps } = props;
 
-	const thumbs = files.map((file) => (
-		<div className={classes.thumb} key={file.name}>
-			<div className={classes.thumbInner}>
-				<img src={file.preview} className={classes.img} />
-			</div>
-		</div>
-	));
-	const fileName = files.map((file) => (
-		<p key={file.name}>
-			{file.name} - {file.size} bytes
-		</p>
+	const generateBase64Url = React.useCallback((file) => {
+		const fileReader = new FileReader();
+		fileReader.onload = () => {
+			file = {
+				...file,
+				preview: fileReader.result
+			};
+			setUrlBase64(file.preview);
+			// console.log(urlBase64);
+		};
+		fileReader.readAsDataURL(file);
+	}, []);
+
+	// React.useEffect(() => {}, [urlBase64]);
+
+	const thumbs = acceptedFiles.map((file) => {
+		generateBase64Url(file);
+		return (
+			<Grid item xs={3} key="ñalskjdfñlkjdñkajsd">
+				<div className={classes.thumb} key={file.name}>
+					<div className={classes.thumbInner}>
+						<img src={urlBase64} className={classes.img} />
+					</div>
+				</div>
+				<p>
+					{file.name} - {file.size} bytes
+				</p>
+			</Grid>
+		);
+	});
+
+	const rejected = rejectedFiles.map((file) => (
+		<Alert severity="error">
+			{file.name} no es un archivo válido. Sólo jpeg, jpg o png de tamaño
+			inferior a 100000 Kb{" "}
+		</Alert>
 	));
 
 	return (
-		<Field name="picture">
-			{(props) => (
-				<section className="container">
+		<section className="container">
+			<Field
+				name="urlBase64"
+				type="hidden"
+				component={TextField}
+				defaultValue={urlBase64}
+			/>
+			<Field
+				name="picture"
+				type="text"
+				onChange={(event) => {
+					generateBase64Url(event.target.value);
+					event.target.value = urlBase64;
+					console.log(event.target.value);
+				}}
+			>
+				{({ input: { name, onChange, value }, meta }) => (
 					<div
-						{...getRootProps({ className: "dropzone" })}
+						{...getRootProps({
+							className: "dropzone",
+							value: value,
+							name: name,
+							onChange: onChange
+						})}
 						className={classes.root}
 					>
-						{/* Pasamos la propiedades input de Field a la función getInputProps de dropzone  */}
-						<input {...getInputProps(props.input)} />
+						<FormControl>
+							<input {...getInputProps()} type="file" />
+						</FormControl>
+
 						<p>Drag 'n' drop some files here, or click to select files</p>
+						{meta.error && meta.touched && (
+							<Alert severity="error">{meta.error}</Alert>
+						)}
 					</div>
-					<aside className={classes.thumbsContainer}>
-						{thumbs}
-						{fileName}
-					</aside>
-				</section>
-			)}
-		</Field>
+				)}
+			</Field>
+			<aside className={classes.thumbsContainer}>
+				<Grid container spacing={3}>
+					{thumbs}
+				</Grid>
+
+				{rejected}
+			</aside>
+		</section>
 	);
 };

@@ -5,9 +5,15 @@ import { MyDropzoneComponent } from "./dropzone.component";
 export const MyDropzoneContainer = (props) => {
 	const [files, setFiles] = useState([]);
 
-	const { getRootProps, getInputProps } = useDropzone({
+	const {
+		acceptedFiles,
+		rejectedFiles,
+		getRootProps,
+		getInputProps
+	} = useDropzone({
 		accept: "image/jpeg, image/png, image/jpg",
 		maxSize: 1000000,
+		multiple: true,
 		onDrop: (acceptedFiles) => {
 			setFiles(
 				acceptedFiles.map((file) =>
@@ -31,7 +37,8 @@ export const MyDropzoneContainer = (props) => {
 		<MyDropzoneComponent
 			getRootProps={getRootProps}
 			getInputProps={getInputProps}
-			files={files}
+			acceptedFiles={files}
+			rejectedFiles={rejectedFiles}
 		/>
 	);
 };

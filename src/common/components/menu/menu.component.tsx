@@ -9,6 +9,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MailIcon from "@material-ui/icons/Mail";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
+import LockIcon from "@material-ui/icons/Lock";
+import FiberNewIcon from "@material-ui/icons/FiberNew";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link as RouterLink } from "react-router-dom";
@@ -31,6 +33,7 @@ export const NavMenu = (props) => {
 		bottom: false,
 		right: false
 	});
+	const clearSession = () => sessionStorage.clear();
 
 	type DrawerSide = "top" | "left" | "bottom" | "right";
 	const toggleDrawer = (side: DrawerSide, open: boolean) => (
@@ -85,35 +88,40 @@ export const NavMenu = (props) => {
 					</ListItem>
 				))}
 			</List>
+			<List>
+				{["Add new hotel"].map((text, index) => (
+					<ListItem
+						button
+						key={text}
+						component={RouterLink}
+						to={linkRoutes.newHotel}
+					>
+						<ListItemIcon>
+							{index % 2 === 0 ? <FiberNewIcon /> : <MailIcon />}
+						</ListItemIcon>
+						<ListItemText primary={text} />
+					</ListItem>
+				))}
+			</List>
+			<Divider />
+			<List>
+				{["LogOut"].map((text, index) => (
+					<ListItem
+						button
+						key={text}
+						component={RouterLink}
+						to={linkRoutes.login}
+						onClick={clearSession}
+					>
+						<ListItemIcon>
+							{index % 2 === 0 ? <LockIcon /> : <MailIcon />}
+						</ListItemIcon>
+						<ListItemText primary={text} />
+					</ListItem>
+				))}
+			</List>
 		</div>
 	);
-
-	// const fullList = (side: DrawerSide) => (
-	//   <div
-	//     className={classes.fullList}
-	//     role="presentation"
-	//     onClick={toggleDrawer(side, false)}
-	//     onKeyDown={toggleDrawer(side, false)}
-	//   >
-	//     <List>
-	//       {['Login'].map((text, index) => (
-	//         <ListItem button key={text}>
-	//           <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-	//           <ListItemText primary={text} />
-	//         </ListItem>
-	//       ))}
-	//     </List>
-	//     <Divider />
-	//     <List>
-	//       {['All mail', 'Trash', 'Spam'].map((text, index) => (
-	//         <ListItem button key={text}>
-	//           <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-	//           <ListItemText primary={text} />
-	//         </ListItem>
-	//       ))}
-	//     </List>
-	//   </div>
-	// );
 
 	return (
 		<div style={props.style}>

@@ -1,11 +1,11 @@
 import * as React from "react";
 import { HotelEditionComponent } from "./hotel-edition.component";
 import { HotelEntityVm, createDefaultHotelEntity } from "./hotel-edition.vm";
-import { getHotelEdit, HotelEntityApi } from "common";
+import { getHotelEdit, HotelEdit } from "common";
 import { mapFromApiToVm } from "./hotel-edition.mapper";
 import { mapToCollection } from "common";
 import { trackPromise } from "react-promise-tracker";
-import { HotelCardContext } from "common";
+import { useParams } from "react-router-dom";
 
 interface Props {}
 
@@ -13,13 +13,11 @@ const useHotelEdition = () => {
 	const [hotelEdition, setHotelEdition] = React.useState(
 		createDefaultHotelEntity()
 	);
-	const hotelCardContext = React.useContext(HotelCardContext);
+	const { id } = useParams();
 
 	const loadHotelEdition = () => {
 		trackPromise(
-			getHotelEdit(hotelCardContext.id).then((result) =>
-				setHotelEdition(mapFromApiToVm(result))
-			)
+			getHotelEdit(id).then((result) => setHotelEdition(mapFromApiToVm(result)))
 		);
 	};
 

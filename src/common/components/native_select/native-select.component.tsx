@@ -5,6 +5,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { Field } from "react-final-form";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -53,6 +54,11 @@ export const NativeSelects = () => {
 							<option value="Chicago">Chicago</option>
 						</NativeSelect>
 						<FormHelperText>Select city</FormHelperText>
+						<FormHelperText>
+							{props.meta.error && props.meta.touched && (
+								<Alert severity="error">{props.meta.error}</Alert>
+							)}
+						</FormHelperText>
 					</FormControl>
 				</div>
 			)}

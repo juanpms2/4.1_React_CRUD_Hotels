@@ -23,7 +23,7 @@ export const HotelEditionComponent: React.FunctionComponent<Props> = (
 
 	return (
 		<div className={classes.listLayout}>
-			<HotelCard hotelEdition={hotelEdition} />
+			<HotelCard formHotelEdition={hotelEdition} />
 		</div>
 	);
 };

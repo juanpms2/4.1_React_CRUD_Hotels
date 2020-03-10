@@ -3,8 +3,9 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Form, Field } from "react-final-form";
 import { TextField } from "./text-field";
 import { formValidation } from "./form-validation";
-import { HotelEntityVm, createDefaultHotelEntity } from "../hotel-edition.vm";
-import { MyDropzoneContainer, NativeSelects } from "common";
+import { FormEntityVm, createDefaultFormEntity } from "./form.vm";
+import { MyDropzoneContainer } from "common";
+import { NativeSelects } from "common";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -14,9 +15,15 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
+import Alert from "@material-ui/lab/Alert";
+import { putHotelEdit, postHotelEdit } from "common";
+import FormControl from "@material-ui/core/FormControl";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 interface Props {
-	hotelEdition: HotelEntityVm;
+	formHotelEdition: FormEntityVm;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -37,42 +44,54 @@ const useStyles = makeStyles((theme: Theme) => ({
 	media: {
 		height: 0,
 		paddingTop: "56.25%" // 16:9
+	},
+	padding0: {
+		paddingBottom: 0
 	}
 }));
 
 // Todo there are some harcoded styles move them to class styles
 export const HotelCard: React.FunctionComponent<Props> = (props) => {
-	const { hotelEdition } = props;
+	const { id } = useParams();
+	const { formHotelEdition } = props;
 	const classes = useStyles(props);
+	const history = useHistory();
 
 	return (
 		<Form
-			onSubmit={(values) => console.log(values)}
-			initialValues={{
-				rating: hotelEdition.rating,
-				city: hotelEdition.city,
-				description: hotelEdition.description
-			}}
-			validate={formValidation.validateForm}
-			render={({ handleSubmit, submitting, pristine, values }) => (
-				<form onSubmit={handleSubmit} noValidate>
+			onSubmit={(values) =>
+				id !== "new"
+					? putHotelEdit(formHotelEdition.id, values, history)
+					: postHotelEdit(values)
+			}
+			initialValues={formHotelEdition}
+			validate={(values) => formValidation.validateForm(values)}
+			render={({
+				handleSubmit,
+				form,
+				submitting,
+				pristine,
+				values,
+				errors
+			}) => (
+				<form onSubmit={handleSubmit}>
 					<div className={classes.root}>
-						<Grid container spacing={10}>
-							<Grid item xs={2}>
-								<Paper className={classes.paper}>
-									<Typography component="legend">
-										<label>Name</label>
-									</Typography>
-								</Paper>
-							</Grid>
-							<Grid item xs={10}>
+						<Grid container spacing={3}>
+							<Grid item xs={12}>
+								<Grid item xs={2}>
+									<Paper className={classes.paper}>
+										<Typography component="legend">
+											<label>Name</label>
+										</Typography>
+									</Paper>
+								</Grid>
 								<Paper className={classes.paper}>
 									<Field
 										fullWidth
 										name="name"
 										component={TextField}
 										type="text"
-										placeholder={hotelEdition.name}
+										placeholder={formHotelEdition.name}
 									/>
 								</Paper>
 							</Grid>
@@ -85,8 +104,12 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 									<Card className={classes.root}>
 										<CardMedia
 											className={classes.media}
-											image={hotelEdition.picture}
-											title={hotelEdition.name}
+											image={
+												formHotelEdition.urlBase64
+													? formHotelEdition.urlBase64
+													: formHotelEdition.picture
+											}
+											title={formHotelEdition.name}
 										/>
 									</Card>
 								</Paper>
@@ -99,11 +122,9 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 							<Grid item xs={12}>
 								<Paper className={classes.paper}>
 									<Typography component="legend">
-										<label>Select Image</label>
+										<label>Select Picture</label>
 									</Typography>
-									<Field name="picture" component={MyDropzoneContainer} />
-
-									{/* <MyDropzoneContainer /> */}
+									<MyDropzoneContainer />
 								</Paper>
 							</Grid>
 						</Grid>
@@ -111,31 +132,38 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 
 					<div className={classes.root}>
 						<Grid container spacing={3}>
-							<Grid item xs={6}>
+							<Grid item xs={12} sm={6}>
 								<Paper className={classes.paper}>
 									<Typography component="legend">
 										<label>Rating</label>
 									</Typography>
 									<Field name="rating" type="rating">
-										{({ input: { name, onChange, value } }) => (
-											<div>
-												<Box
-													component="fieldset"
-													mb={3}
-													borderColor="transparent"
-												>
-													<Rating
-														name={name}
-														value={parseInt(value)}
-														onChange={onChange}
-													/>
-												</Box>
-											</div>
+										{({ input: { name, onChange, value }, meta }) => (
+											<FormControl>
+												<div>
+													<Box
+														component="fieldset"
+														mb={3}
+														borderColor="transparent"
+													>
+														<Rating
+															name={name}
+															value={Number(value)}
+															onChange={onChange}
+														/>
+													</Box>
+												</div>
+												<FormHelperText>
+													{meta.error && meta.touched && (
+														<Alert severity="error">{meta.error}</Alert>
+													)}
+												</FormHelperText>
+											</FormControl>
 										)}
 									</Field>
 								</Paper>
 							</Grid>
-							<Grid item xs={6}>
+							<Grid item xs={12} sm={6}>
 								<Paper className={classes.paper}>
 									<Typography component="legend">
 										<label>City</label>
@@ -147,25 +175,30 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 					</div>
 					<div className={classes.root}>
 						<Grid container spacing={10}>
-							<Grid item xs={2}>
-								<Paper className={classes.paper}>
-									<Typography component="legend">
-										<label>Description</label>
-									</Typography>
-								</Paper>
-							</Grid>
-							<Grid item xs={10}>
+							<Grid item xs={12}>
+								<Grid item xs={12} sm={2}>
+									<Paper className={classes.paper}>
+										<Typography component="legend">
+											<label>Description</label>
+										</Typography>
+									</Paper>
+								</Grid>
 								<Paper className={classes.paper}>
 									<Field name="description">
-										{(props) => (
-											<TextareaAutosize
-												aria-label="minimum height"
-												rowsMin={8}
-												placeholder="Add description"
-												name={props.input.name}
-												value={props.input.value}
-												onChange={props.input.onChange}
-											/>
+										{({ input, meta }) => (
+											<FormControl>
+												<TextareaAutosize
+													aria-label="minimum height"
+													rowsMin={8}
+													placeholder="Add description"
+													{...input}
+												/>
+												<FormHelperText>
+													{meta.error && meta.touched && (
+														<Alert severity="error">{meta.error}</Alert>
+													)}
+												</FormHelperText>
+											</FormControl>
 										)}
 									</Field>
 								</Paper>
