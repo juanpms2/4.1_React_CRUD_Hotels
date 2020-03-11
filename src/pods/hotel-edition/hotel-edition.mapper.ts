@@ -6,24 +6,24 @@ export const mapFromApiToVm = (
 	hotel: apiModel.HotelEdit
 ): viewModel.HotelEntityVm => ({
 	id: hotel.id,
-	picture: hotel.thumbNailUrl,
+	thumbNailUrl: hotel.thumbNailUrl.includes("/thumbnails/")
+		? `${basePicturesUrl}${hotel.thumbNailUrl}`
+		: hotel.thumbNailUrl,
 	name: hotel.name,
 	description: hotel.shortDescription,
 	rating: hotel.hotelRating,
-	address: hotel.address1,
-	city: hotel.city,
-	urlBase64: hotel.urlBase64
+	city: hotel.city
 });
 
 export const mapFromVmToApi = (
 	hotel: viewModel.HotelEntityVm
 ): apiModel.HotelEdit => ({
-	address1: hotel.address,
 	id: hotel.id,
-	thumbNailUrl: hotel.picture,
+	thumbNailUrl: hotel.thumbNailUrl.includes("/thumbnails/")
+		? `${basePicturesUrl}${hotel.thumbNailUrl}`
+		: hotel.thumbNailUrl,
 	name: hotel.name,
 	hotelRating: hotel.rating,
 	shortDescription: hotel.description,
-	city: hotel.city,
-	urlBase64: hotel.urlBase64
+	city: hotel.city
 });

@@ -1,9 +1,8 @@
 export interface HotelEntityVm {
 	id: string;
-	picture: string;
+	thumbNailUrl: string;
 	name: string;
 	description: string;
 	rating: number;
 	address: string;
-	urlBase64: string;
 }

@@ -6,10 +6,11 @@ export const mapFromApiToVm = (
 	hotel: apiModel.HotelEntityApi
 ): viewModel.HotelEntityVm => ({
 	id: hotel.id,
-	picture: `${basePicturesUrl}${hotel.thumbNailUrl}`,
+	thumbNailUrl: hotel.thumbNailUrl.includes("/thumbnails/")
+		? `${basePicturesUrl}${hotel.thumbNailUrl}`
+		: hotel.thumbNailUrl,
 	name: hotel.name,
 	description: hotel.shortDescription,
 	rating: hotel.hotelRating,
-	address: hotel.address1,
-	urlBase64: hotel.urlBase64
+	address: hotel.address1
 });

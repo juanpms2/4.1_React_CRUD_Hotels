@@ -3,6 +3,7 @@ import Axios from "axios";
 import { baseApiUrl, basePicturesUrl } from "core";
 import { mapFromVmToApi } from "pods/hotel-edition/hotel-edition.mapper";
 import { linkRoutes } from "core";
+import { generatePath } from "react-router";
 
 export interface HotelEntityApi {
 	id: string;
@@ -40,7 +41,6 @@ export interface HotelEntityApi {
 	thumbNailUrl: string;
 	tripAdvisorRating: number;
 	tripAdvisorRatingUrl: string;
-	urlBase64: string;
 }
 
 export interface HotelEdit {
@@ -49,13 +49,10 @@ export interface HotelEdit {
 	shortDescription: string;
 	name: string;
 	hotelRating: number;
-	address1: string;
 	city: string;
-	urlBase64: string;
 }
 
 const getHotelsUrl = `${baseApiUrl}/api/hotels`;
-const uploadFiles = `${basePicturesUrl}/thumbnails`;
 
 // TODO: Just only managing the "happy path" adding error handling here or upper level
 // would be a good idea
@@ -84,12 +81,29 @@ export const putHotelEdit = (id: string, data, history) => {
 		});
 };
 
-export const postHotelEdit = (data) => {
+export const postHotelEdit = (data, history) => {
 	const hotel: HotelEdit = mapFromVmToApi(data);
-	Axios.post("alskdkek", { ...hotel })
+	Axios.post(getHotelsUrl, { ...hotel })
 		.then(({ data }) => {
-			data;
-			console.log("post");
+			console.log(data);
+			alert("Hotel creado correctamente");
+			history.push(linkRoutes.hotelCollection);
+			return data;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+};
+
+export const deleteHotel = (hotel) => {
+	const id = hotel.id;
+	const url = `http://localhost:3000/api/hotels/${id}`;
+	Axios.delete(url, { params: { id: hotel.id } })
+		.then((res) => {
+			console.log(res);
+			console.log(res.data);
+			// alert(`Hotel borrado correctamente.`);
+			// history.push(linkRoutes.hotelCollection);
 		})
 		.catch((err) => {
 			console.log(err);

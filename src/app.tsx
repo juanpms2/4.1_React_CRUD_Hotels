@@ -4,6 +4,7 @@ import { LoginScene, HotelCollectionScene, HotelEditionScene } from "scenes";
 import { switchRoutes, SessionProvider } from "core";
 import { FooterAppBar } from "pods";
 import { Spinner, HotelCardProvider } from "common";
+import { NewHotelScene } from "scenes/new-hotel.scene";
 
 export const App: React.FunctionComponent = () => {
 	return (
@@ -25,6 +26,7 @@ export const App: React.FunctionComponent = () => {
 							path={switchRoutes.hotelEdit}
 							component={HotelEditionScene}
 						/>
+						<Route path={switchRoutes.newHotel} component={NewHotelScene} />
 						<FooterAppBar />
 					</Switch>
 				</HashRouter>

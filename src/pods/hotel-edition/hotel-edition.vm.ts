@@ -1,21 +1,17 @@
 export interface HotelEntityVm {
 	id: string;
-	picture: string;
+	thumbNailUrl: string;
 	name: string;
 	description: string;
 	rating: number;
-	address: string;
 	city: string;
-	urlBase64: string;
 }
 
 export const createDefaultHotelEntity = (): HotelEntityVm => ({
 	id: "",
-	address: "",
 	description: "",
 	name: "",
-	picture: "",
+	thumbNailUrl: "",
 	rating: 0,
-	city: "",
-	urlBase64: ""
+	city: ""
 });

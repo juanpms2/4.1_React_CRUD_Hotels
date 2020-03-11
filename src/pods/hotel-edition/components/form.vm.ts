@@ -1,19 +1,17 @@
 export interface FormEntityVm {
 	id: string;
 	name: string;
-	picture: string;
+	thumbNailUrl: string;
 	description: string;
 	rating: number;
 	city: string;
-	urlBase64: string;
 }
 
 export const createDefaultFormEntity = (): FormEntityVm => ({
 	id: "",
 	name: "",
-	picture: "",
+	thumbNailUrl: "",
 	description: "",
 	rating: 0,
-	city: "",
-	urlBase64: ""
+	city: ""
 });

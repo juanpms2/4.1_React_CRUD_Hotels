@@ -5,11 +5,12 @@ import Alert from "@material-ui/lab/Alert";
 import Grid from "@material-ui/core/Grid";
 import { FormControl } from "@material-ui/core";
 import { TextField } from "./text-field";
+import { useField } from "react-final-form";
 
 interface Props {
 	getRootProps;
 	getInputProps;
-	acceptedFilesd;
+	acceptedFile;
 	rejectedFiles;
 }
 
@@ -63,41 +64,28 @@ const useStyles = makeStyles((theme: Theme) => ({
 	}
 }));
 
-export const MyDropzoneComponent = (props) => {
+export const MyDropzoneComponent: React.FunctionComponent<Props> = (props) => {
 	const classes = useStyles(props);
-	const [urlBase64, setUrlBase64] = React.useState();
-	const { acceptedFiles, rejectedFiles, getRootProps, getInputProps } = props;
+	const propsBase64 = useField("thumbNailUrl");
+	const { acceptedFile, rejectedFiles, getRootProps, getInputProps } = props;
 
-	const generateBase64Url = React.useCallback((file) => {
-		const fileReader = new FileReader();
-		fileReader.onload = () => {
-			file = {
-				...file,
-				preview: fileReader.result
-			};
-			setUrlBase64(file.preview);
-			// console.log(urlBase64);
-		};
-		fileReader.readAsDataURL(file);
-	}, []);
+	React.useEffect(() => {
+		propsBase64.input.onChange(acceptedFile.preview);
+	}, [acceptedFile.preview]);
 
-	// React.useEffect(() => {}, [urlBase64]);
-
-	const thumbs = acceptedFiles.map((file) => {
-		generateBase64Url(file);
+	const thumbs = (acceptedFile) => {
 		return (
-			<Grid item xs={3} key="ñalskjdfñlkjdñkajsd">
-				<div className={classes.thumb} key={file.name}>
+			<Grid item xs={3}>
+				<div className={classes.thumb}>
 					<div className={classes.thumbInner}>
-						<img src={urlBase64} className={classes.img} />
+						<img src={acceptedFile.preview} className={classes.img} />
 					</div>
 				</div>
-				<p>
-					{file.name} - {file.size} bytes
-				</p>
+				<p>{acceptedFile.path}</p>
+				{/* <Field name="thumbNailUrl" type="text" component={TextField} /> */}
 			</Grid>
 		);
-	});
+	};
 
 	const rejected = rejectedFiles.map((file) => (
 		<Alert severity="error">
@@ -108,21 +96,8 @@ export const MyDropzoneComponent = (props) => {
 
 	return (
 		<section className="container">
-			<Field
-				name="urlBase64"
-				type="hidden"
-				component={TextField}
-				defaultValue={urlBase64}
-			/>
-			<Field
-				name="picture"
-				type="text"
-				onChange={(event) => {
-					generateBase64Url(event.target.value);
-					event.target.value = urlBase64;
-					console.log(event.target.value);
-				}}
-			>
+			<Field name="thumbNailUrl" type="hidden" component={TextField} />
+			<Field name="picture" type="text">
 				{({ input: { name, onChange, value }, meta }) => (
 					<div
 						{...getRootProps({
@@ -133,9 +108,7 @@ export const MyDropzoneComponent = (props) => {
 						})}
 						className={classes.root}
 					>
-						<FormControl>
-							<input {...getInputProps()} type="file" />
-						</FormControl>
+						<input {...getInputProps()} type="file" />
 
 						<p>Drag 'n' drop some files here, or click to select files</p>
 						{meta.error && meta.touched && (
@@ -146,7 +119,7 @@ export const MyDropzoneComponent = (props) => {
 			</Field>
 			<aside className={classes.thumbsContainer}>
 				<Grid container spacing={3}>
-					{thumbs}
+					{acceptedFile.preview && thumbs(acceptedFile)}
 				</Grid>
 
 				{rejected}

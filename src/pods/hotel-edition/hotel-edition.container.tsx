@@ -16,9 +16,13 @@ const useHotelEdition = () => {
 	const { id } = useParams();
 
 	const loadHotelEdition = () => {
-		trackPromise(
-			getHotelEdit(id).then((result) => setHotelEdition(mapFromApiToVm(result)))
-		);
+		id
+			? trackPromise(
+					getHotelEdit(id).then((result) =>
+						setHotelEdition(mapFromApiToVm(result))
+					)
+			  )
+			: setHotelEdition(createDefaultHotelEntity());
 	};
 
 	return { hotelEdition, loadHotelEdition };

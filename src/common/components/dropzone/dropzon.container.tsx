@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { MyDropzoneComponent } from "./dropzone.component";
 
 export const MyDropzoneContainer = (props) => {
-	const [files, setFiles] = useState([]);
+	const [file, setFile] = useState({});
 
 	const {
 		acceptedFiles,
@@ -13,31 +13,26 @@ export const MyDropzoneContainer = (props) => {
 	} = useDropzone({
 		accept: "image/jpeg, image/png, image/jpg",
 		maxSize: 1000000,
-		multiple: true,
+		multiple: false,
 		onDrop: (acceptedFiles) => {
-			setFiles(
-				acceptedFiles.map((file) =>
-					Object.assign(file, {
-						preview: URL.createObjectURL(file)
-					})
-				)
-			);
+			let file = acceptedFiles[0];
+			const fileReader = new FileReader();
+			fileReader.onload = () => {
+				file = {
+					...file,
+					preview: fileReader.result
+				};
+				setFile(file);
+			};
+			fileReader.readAsDataURL(file);
 		}
 	});
-
-	useEffect(
-		() => () => {
-			// Make sure to revoke the data uris to avoid memory leaks
-			files.forEach((file) => URL.revokeObjectURL(file.preview));
-		},
-		[files]
-	);
 
 	return (
 		<MyDropzoneComponent
 			getRootProps={getRootProps}
 			getInputProps={getInputProps}
-			acceptedFiles={files}
+			acceptedFile={file}
 			rejectedFiles={rejectedFiles}
 		/>
 	);

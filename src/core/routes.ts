@@ -13,7 +13,7 @@ export const switchRoutes: SwitchRoutes = {
 	login: "/login",
 	hotelCollection: "/hotel-collection",
 	hotelEdit: "/hotel-edit/:id",
-	newHotel: "/hotel-edit/new"
+	newHotel: "/new-hotel"
 };
 
 type NavigationFunction = (id: string) => string;

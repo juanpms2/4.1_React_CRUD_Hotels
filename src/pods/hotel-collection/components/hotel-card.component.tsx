@@ -15,8 +15,16 @@ import {
 	CardActions
 } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { linkRoutes } from "core";
-import { HotelCardContext } from "common";
+import { linkRoutes, baseApiUrl } from "core";
+import { HotelCardContext, deleteHotel } from "common";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Button from "@material-ui/core/Button";
+// import Paper, { PaperProps } from "@material-ui/core/Paper";
+// import Draggable from "react-draggable";
 
 interface Props {
 	hotel: HotelEntityVm;
@@ -40,10 +48,23 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 	const hotelCardContext = React.useContext(HotelCardContext);
 	const history = useHistory();
 	const classes = useStyles(props);
+	const [open, setOpen] = React.useState(false);
 
 	const navigateToHotel = () => {
 		hotelCardContext.loadId(hotel.id);
 		history.push(linkRoutes.hotelEdit(hotel.id));
+	};
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+	const deleteHotels = () => {
+		handleClose();
+		deleteHotel(hotel);
 	};
 
 	return (
@@ -61,7 +82,7 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 			<CardContent>
 				<div className={classes.cardcontentContainer}>
 					<CardMedia
-						image={hotel.urlBase64 ? hotel.urlBase64 : hotel.picture}
+						image={hotel.thumbNailUrl}
 						title={hotel.name}
 						style={{ height: 0, paddingTop: "56.25%" }}
 					/>
@@ -71,16 +92,35 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 				</div>
 			</CardContent>
 			<CardActions>
-				<IconButton
-					aria-label="Add to favorites"
-					type="button"
-					onClick={navigateToHotel}
-				>
+				<IconButton aria-label="Edit" type="button" onClick={navigateToHotel}>
 					<EditIcon />
 				</IconButton>
-				<IconButton aria-label="Share">
+				<IconButton aria-label="Delete" type="button" onClick={handleClickOpen}>
 					<DeleteIcon />
 				</IconButton>
+				<Dialog
+					open={open}
+					onClose={handleClose}
+					// PaperComponent={PaperComponent}
+					aria-labelledby="draggable-dialog-title"
+				>
+					<DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+						Alert
+					</DialogTitle>
+					<DialogContent>
+						<DialogContentText>
+							Acepta para borrar el hotel o cancela si todo fue un error.
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button autoFocus onClick={handleClose} color="primary">
+							Cancel
+						</Button>
+						<Button onClick={deleteHotels} color="primary">
+							Acept
+						</Button>
+					</DialogActions>
+				</Dialog>
 			</CardActions>
 		</Card>
 	);

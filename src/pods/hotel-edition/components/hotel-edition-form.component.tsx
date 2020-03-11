@@ -60,9 +60,9 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 	return (
 		<Form
 			onSubmit={(values) =>
-				id !== "new"
+				id === ""
 					? putHotelEdit(formHotelEdition.id, values, history)
-					: postHotelEdit(values)
+					: postHotelEdit(values, history)
 			}
 			initialValues={formHotelEdition}
 			validate={(values) => formValidation.validateForm(values)}
@@ -97,25 +97,23 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 							</Grid>
 						</Grid>
 					</div>
-					<div className={classes.root}>
-						<Grid container spacing={3}>
-							<Grid item xs={12}>
-								<Paper className={classes.paper}>
-									<Card className={classes.root}>
-										<CardMedia
-											className={classes.media}
-											image={
-												formHotelEdition.urlBase64
-													? formHotelEdition.urlBase64
-													: formHotelEdition.picture
-											}
-											title={formHotelEdition.name}
-										/>
-									</Card>
-								</Paper>
+					{formHotelEdition.thumbNailUrl && (
+						<div className={classes.root}>
+							<Grid container spacing={3}>
+								<Grid item xs={12}>
+									<Paper className={classes.paper}>
+										<Card className={classes.root}>
+											<CardMedia
+												className={classes.media}
+												image={formHotelEdition.thumbNailUrl}
+												title={formHotelEdition.name}
+											/>
+										</Card>
+									</Paper>
+								</Grid>
 							</Grid>
-						</Grid>
-					</div>
+						</div>
+					)}
 
 					<div className={classes.root}>
 						<Grid container spacing={3}>
