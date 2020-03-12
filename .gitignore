@@ -3,3 +3,5 @@
 /.DS_Store
 /dist
 package-lock.json
+/backend/node_modules
+/backend/package-lock.json

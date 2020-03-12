@@ -27,9 +27,9 @@ export const App: React.FunctionComponent = () => {
 							component={HotelEditionScene}
 						/>
 						<Route path={switchRoutes.newHotel} component={NewHotelScene} />
-						<FooterAppBar />
 					</Switch>
 				</HashRouter>
+				<FooterAppBar />
 			</HotelCardProvider>
 		</SessionProvider>
 	);

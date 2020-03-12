@@ -6,7 +6,7 @@ import { HotelCollectionContainer } from "pods";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		margin: "15px 0",
+		margin: "15px 8px",
 
 		"& > * + *": {
 			marginLeft: theme.spacing(2)

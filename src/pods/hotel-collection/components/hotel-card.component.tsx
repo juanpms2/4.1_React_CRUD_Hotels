@@ -62,9 +62,12 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 	const handleClose = () => {
 		setOpen(false);
 	};
-	const deleteHotels = () => {
+
+	//Esta función está bien es el servidor de pruebas el que tiene el problema, por eso se borran todos los items.
+	const deleteHotels = (event, hotel) => {
+		event.preventDefault();
 		handleClose();
-		deleteHotel(hotel);
+		deleteHotel(event, hotel);
 	};
 
 	return (
@@ -116,7 +119,10 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 						<Button autoFocus onClick={handleClose} color="primary">
 							Cancel
 						</Button>
-						<Button onClick={deleteHotels} color="primary">
+						<Button
+							onClick={(event) => deleteHotels(event, hotel)}
+							color="primary"
+						>
 							Acept
 						</Button>
 					</DialogActions>

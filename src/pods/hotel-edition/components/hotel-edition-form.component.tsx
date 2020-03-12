@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		textAlign: "center",
 		color: theme.palette.text.secondary,
 		boxShadow: "none",
+		background: "none",
 
 		"& > *": {
 			width: "100%",
@@ -214,12 +215,12 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 							</Grid>
 						</Grid>
 					</div>
-					<div style={{ maxWidth: "200px" }}>
+					{/* <div style={{ maxWidth: "200px" }}>
 						<pre>{JSON.stringify(values, undefined, 2)}</pre>
 						<Field name="data">
 							{(props) => <pre>{JSON.stringify(props, undefined, 2)}</pre>}
 						</Field>
-					</div>
+					</div> */}
 				</form>
 			)}
 		/>

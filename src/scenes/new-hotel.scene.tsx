@@ -9,10 +9,11 @@ const useStyles = makeStyles((theme) => ({
 		display: "flex",
 		flexWrap: "wrap",
 		justifyContent: "center",
-		width: "100%"
+		width: "100%",
+		overflow: "hidden"
 	},
 	title: {
-		margin: "15px 0",
+		margin: "15px 8px",
 
 		"& > * + *": {
 			marginLeft: theme.spacing(2)

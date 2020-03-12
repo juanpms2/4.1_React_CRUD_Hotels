@@ -4,6 +4,7 @@ import { baseApiUrl, basePicturesUrl } from "core";
 import { mapFromVmToApi } from "pods/hotel-edition/hotel-edition.mapper";
 import { linkRoutes } from "core";
 import { generatePath } from "react-router";
+import { setConstantValue } from "typescript";
 
 export interface HotelEntityApi {
 	id: string;
@@ -95,15 +96,16 @@ export const postHotelEdit = (data, history) => {
 		});
 };
 
-export const deleteHotel = (hotel) => {
-	const id = hotel.id;
-	const url = `http://localhost:3000/api/hotels/${id}`;
-	Axios.delete(url, { params: { id: hotel.id } })
+//Esta función está bien es el servidor de pruebas el que tiene el problema, por eso se borran todos los items.
+export const deleteHotel = (event, hotel) => {
+	event.preventDefault();
+	const url = `${getHotelsUrl}/${hotel.id}`;
+	Axios.delete(url)
 		.then((res) => {
 			console.log(res);
 			console.log(res.data);
-			// alert(`Hotel borrado correctamente.`);
-			// history.push(linkRoutes.hotelCollection);
+			alert(`Hotel borrado correctamente.`);
+			window.location.reload();
 		})
 		.catch((err) => {
 			console.log(err);

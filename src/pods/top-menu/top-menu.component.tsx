@@ -14,7 +14,8 @@ interface Props {}
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		flexGrow: 1,
-		alignItems: "space-between"
+		alignItems: "space-between",
+		overflow: "hidden"
 	}
 }));
 

@@ -11,7 +11,8 @@ const useStyles = makeStyles({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "center",
-		minWidth: "400px"
+		minWidth: "200px",
+		overflow: "hidden"
 	},
 
 	myForm: {

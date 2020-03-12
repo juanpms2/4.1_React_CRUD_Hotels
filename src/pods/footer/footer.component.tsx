@@ -1,17 +1,45 @@
 import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import Link from "@material-ui/core/Link";
+import { Hidden } from "@material-ui/core";
+
+function Copyright() {
+	return (
+		<Typography variant="body2" color="textSecondary">
+			{"Copyright © "}
+			<Link color="inherit" href="https://github.com/juanpms2">
+				Juan Pablo Martínez
+			</Link>{" "}
+			{new Date().getFullYear()}
+			{"."}
+		</Typography>
+	);
+}
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		flexGrow: 1
+		display: "flex",
+		flexDirection: "column",
+		marginTop: theme.spacing(8),
+		overflow: "hidden",
+		maxWidth: "100%"
+
+		// minHeight: "100vh"
 	},
-	paper: {
-		padding: theme.spacing(2),
-		textAlign: "center",
-		color: theme.palette.text.secondary,
-		background: "red"
+	main: {
+		marginTop: theme.spacing(8),
+		marginBottom: theme.spacing(2)
+	},
+	footer: {
+		padding: theme.spacing(3, 2),
+		marginTop: "auto",
+		backgroundColor:
+			theme.palette.type === "dark"
+				? theme.palette.grey[800]
+				: theme.palette.grey[200]
 	}
 }));
 
@@ -20,13 +48,13 @@ export const FooterAppBar = () => {
 
 	return (
 		<div className={classes.root}>
-			<Grid container spacing={0}>
-				<Grid item xs={12}>
-					<Paper className={classes.paper} elevation={0}>
-						&copy; Juan Pablo Martínez
-					</Paper>
-				</Grid>
-			</Grid>
+			<CssBaseline />
+			<footer className={classes.footer}>
+				<Container maxWidth="sm">
+					<Typography variant="body1">CRUD de Hoteles con React.</Typography>
+					<Copyright />
+				</Container>
+			</footer>
 		</div>
 	);
 };

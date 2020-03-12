@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%"
 	},
 	title: {
-		margin: "15px 0",
+		margin: "15px 8px",
 
 		"& > * + *": {
 			marginLeft: theme.spacing(2)
