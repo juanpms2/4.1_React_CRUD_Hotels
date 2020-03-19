@@ -8,15 +8,10 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import {
-	CardContent,
-	CardMedia,
-	Typography,
-	CardActions
-} from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import { linkRoutes } from "core";
-import { HotelCardContext, deleteHotel } from "common";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Typography from "@material-ui/core/Typography";
+import CardActions from "@material-ui/core/CardActions";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -26,6 +21,11 @@ import Button from "@material-ui/core/Button";
 
 interface Props {
 	hotel: HotelEntityVm;
+	navigateToHotel: () => void;
+	handleClickOpen: () => void;
+	handleClose: () => void;
+	deleteHotel: (event: any, hotel: HotelEntityVm) => void;
+	open: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -41,32 +41,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 // Todo there are some harcoded styles move them to class styles
-export const HotelCard: React.FunctionComponent<Props> = (props) => {
-	const { hotel } = props;
-	const hotelCardContext = React.useContext(HotelCardContext);
-	const history = useHistory();
+export const HotelCardComponent: React.FunctionComponent<Props> = (props) => {
+	const {
+		hotel,
+		navigateToHotel,
+		handleClickOpen,
+		handleClose,
+		deleteHotel,
+		open
+	} = props;
 	const classes = useStyles(props);
-	const [open, setOpen] = React.useState(false);
-
-	const navigateToHotel = () => {
-		hotelCardContext.loadId(hotel.id);
-		history.push(linkRoutes.hotelEdit(hotel.id));
-	};
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	//Esta función está bien es el servidor de pruebas el que tiene el problema, por eso se borran todos los items.
-	const deleteHotels = (event, hotel) => {
-		event.preventDefault();
-		handleClose();
-		deleteHotel(event, hotel);
-	};
 
 	return (
 		<Card className={classes.card}>
@@ -102,7 +86,6 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 				<Dialog
 					open={open}
 					onClose={handleClose}
-					// PaperComponent={PaperComponent}
 					aria-labelledby="draggable-dialog-title"
 				>
 					<DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
@@ -118,7 +101,7 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 							Cancel
 						</Button>
 						<Button
-							onClick={(event) => deleteHotels(event, hotel)}
+							onClick={(event) => deleteHotel(event, hotel)}
 							color="primary"
 						>
 							Acept

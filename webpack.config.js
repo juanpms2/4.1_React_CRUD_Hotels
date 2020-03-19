@@ -1,9 +1,8 @@
-var HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CheckerPlugin } = require("awesome-typescript-loader");
-var webpack = require("webpack");
-var path = require("path");
+const path = require("path");
 
-var basePath = __dirname;
+const basePath = __dirname;
 
 module.exports = {
 	context: path.join(basePath, "src"),

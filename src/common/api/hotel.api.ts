@@ -1,10 +1,7 @@
-import * as React from "react";
 import Axios from "axios";
-import { baseApiUrl, basePicturesUrl } from "core";
+import { baseApiUrl } from "core";
 import { mapFromVmToApi } from "pods/hotel-edition/hotel-edition.mapper";
 import { linkRoutes } from "core";
-import { generatePath } from "react-router";
-import { setConstantValue } from "typescript";
 
 export interface HotelEntityApi {
 	id: string;
@@ -78,6 +75,7 @@ export const putHotelEdit = (id: string, data, history) => {
 		})
 		.catch((err) => {
 			console.log(err);
+			alert("PUt");
 			return err;
 		});
 };
@@ -93,6 +91,7 @@ export const postHotelEdit = (data, history) => {
 		})
 		.catch((err) => {
 			console.log(err);
+			alert(err);
 		});
 };
 

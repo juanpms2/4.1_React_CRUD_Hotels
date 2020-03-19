@@ -3,7 +3,6 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Field } from "react-final-form";
 import Alert from "@material-ui/lab/Alert";
 import Grid from "@material-ui/core/Grid";
-import { FormControl } from "@material-ui/core";
 import { TextField } from "./text-field";
 import { useField } from "react-final-form";
 
@@ -82,7 +81,6 @@ export const MyDropzoneComponent: React.FunctionComponent<Props> = (props) => {
 					</div>
 				</div>
 				<p>{acceptedFile.path}</p>
-				{/* <Field name="thumbNailUrl" type="text" component={TextField} /> */}
 			</Grid>
 		);
 	};

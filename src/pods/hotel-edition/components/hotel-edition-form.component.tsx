@@ -3,9 +3,9 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Form, Field } from "react-final-form";
 import { TextField } from "./text-field";
 import { formValidation } from "./form-validation";
-import { FormEntityVm, createDefaultFormEntity } from "./form.vm";
+import { FormEntityVm } from "./form.vm";
 import { MyDropzoneContainer } from "common";
-import { NativeSelects } from "common";
+import { NativeSelects, putHotelEdit, postHotelEdit } from "common";
 import Rating from "@material-ui/lab/Rating";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -16,11 +16,9 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import Alert from "@material-ui/lab/Alert";
-import { putHotelEdit, postHotelEdit } from "common";
 import FormControl from "@material-ui/core/FormControl";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import { useParams } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 interface Props {
 	formHotelEdition: FormEntityVm;
@@ -52,7 +50,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 // Todo there are some harcoded styles move them to class styles
-export const HotelCard: React.FunctionComponent<Props> = (props) => {
+export const HotelEditionFormComponent: React.FunctionComponent<Props> = (
+	props
+) => {
 	const { id } = useParams();
 	const { formHotelEdition } = props;
 	const classes = useStyles(props);
@@ -61,7 +61,7 @@ export const HotelCard: React.FunctionComponent<Props> = (props) => {
 	return (
 		<Form
 			onSubmit={(values) =>
-				id === ""
+				id
 					? putHotelEdit(formHotelEdition.id, values, history)
 					: postHotelEdit(values, history)
 			}

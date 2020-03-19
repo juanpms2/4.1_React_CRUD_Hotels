@@ -1,6 +1,6 @@
 import * as React from "react";
 import { LoginEntityVm } from "pods";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import { TextField } from "./text-field";
 import Button from "@material-ui/core/Button";
 import { Form, Field } from "react-final-form";

@@ -1,6 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
@@ -19,30 +18,16 @@ const useStyles = makeStyles((theme) => ({
 
 export const NativeSelects = () => {
 	const classes = useStyles();
-	const [state, setState] = React.useState({
-		city: ""
-	});
-
-	const handleChange = (name) => (event) => {
-		setState({
-			...state,
-			[name]: event.target.value
-		});
-	};
 
 	return (
 		<Field name="city">
 			{(props) => (
 				<div>
 					<FormControl className={classes.formControl}>
-						{/* <InputLabel shrink htmlFor="city-native-label-placeholder">
-							City
-						</InputLabel> */}
 						<NativeSelect
 							name={props.input.name}
 							value={props.input.value}
 							onChange={props.input.onChange}
-							// onChange={handleChange("city")}
 							inputProps={{
 								name: "city",
 								id: "city-native-label-placeholder"

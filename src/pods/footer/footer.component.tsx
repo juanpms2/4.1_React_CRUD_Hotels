@@ -1,23 +1,9 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
-import { Hidden } from "@material-ui/core";
-
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary">
-			{"Copyright © "}
-			<Link color="inherit" href="https://github.com/juanpms2">
-				Juan Pablo Martínez
-			</Link>{" "}
-			{new Date().getFullYear()}
-			{"."}
-		</Typography>
-	);
-}
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -26,8 +12,6 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(8),
 		overflow: "hidden",
 		maxWidth: "100%"
-
-		// minHeight: "100vh"
 	},
 	main: {
 		marginTop: theme.spacing(8),
@@ -52,7 +36,14 @@ export const FooterAppBar = () => {
 			<footer className={classes.footer}>
 				<Container maxWidth="sm">
 					<Typography variant="body1">CRUD de Hoteles con React.</Typography>
-					<Copyright />
+					<Typography variant="body2" color="textSecondary">
+						{"Copyright © "}
+						<Link color="inherit" href="https://github.com/juanpms2">
+							Juan Pablo Martínez
+						</Link>{" "}
+						{new Date().getFullYear()}
+						{"."}
+					</Typography>
 				</Container>
 			</footer>
 		</div>

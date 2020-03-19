@@ -1,9 +1,8 @@
 import * as React from "react";
 import { HotelEditionComponent } from "./hotel-edition.component";
-import { HotelEntityVm, createDefaultHotelEntity } from "./hotel-edition.vm";
-import { getHotelEdit, HotelEdit } from "common";
+import { createDefaultHotelEntity } from "./hotel-edition.vm";
+import { getHotelEdit } from "common";
 import { mapFromApiToVm } from "./hotel-edition.mapper";
-import { mapToCollection } from "common";
 import { trackPromise } from "react-promise-tracker";
 import { useParams } from "react-router-dom";
 

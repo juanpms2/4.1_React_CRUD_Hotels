@@ -1,7 +1,7 @@
 import * as React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import { HotelEntityVm } from "./hotel-edition.vm";
-import { HotelCard } from "./components/hotel-edition-form.component"; // on next step we will create this component
+import { HotelEditionFormContainer } from "./components/hotel-edition-form.container";
 
 interface Props {
 	hotelEdition: HotelEntityVm;
@@ -23,7 +23,7 @@ export const HotelEditionComponent: React.FunctionComponent<Props> = (
 
 	return (
 		<div className={classes.listLayout}>
-			<HotelCard formHotelEdition={hotelEdition} />
+			<HotelEditionFormContainer formHotelEdition={hotelEdition} />
 		</div>
 	);
 };

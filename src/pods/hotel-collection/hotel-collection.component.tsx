@@ -1,7 +1,7 @@
 import * as React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 import { HotelEntityVm } from "./hotel-collection.vm";
-import { HotelCard } from "./components/hotel-card.component"; // on next step we will create this component
+import { HotelCardContainer } from "./components/hotel-card.container"; // on next step we will create this component
 
 interface Props {
 	hotelCollection: HotelEntityVm[];
@@ -24,7 +24,7 @@ export const HotelCollectionComponent: React.FunctionComponent<Props> = (
 	return (
 		<div className={classes.listLayout}>
 			{hotelCollection.map((hotel) => (
-				<HotelCard key={hotel.id} hotel={hotel} />
+				<HotelCardContainer key={hotel.id} hotel={hotel} />
 			))}
 		</div>
 	);

@@ -12,7 +12,7 @@ export const TextField: React.FunctionComponent<Props> = (props) => {
 	} = props;
 
 	const showError =
-		((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
+		Boolean((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
 		meta.touched;
 
 	return (

@@ -1,10 +1,14 @@
 import * as React from "react";
 import { HashRouter, Switch, Route } from "react-router-dom";
-import { LoginScene, HotelCollectionScene, HotelEditionScene } from "scenes";
+import {
+	LoginScene,
+	HotelCollectionScene,
+	HotelEditionScene,
+	NewHotelScene
+} from "scenes";
 import { switchRoutes, SessionProvider } from "core";
 import { FooterAppBar } from "pods";
 import { Spinner, HotelCardProvider } from "common";
-import { NewHotelScene } from "scenes/new-hotel.scene";
 
 export const App: React.FunctionComponent = () => {
 	return (
